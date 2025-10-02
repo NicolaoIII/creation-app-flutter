@@ -16,6 +16,9 @@ import '../test_firebase_screen.dart';
 
 import '../features/codes/screens/generate_signup_code_screen.dart';
 
+import '../features/schools/screens/schools_list_screen.dart';
+import '../features/schools/screens/add_school_screen.dart';
+
 
 GoRouter createRouter(BuildContext context) {
   final auth = context.read<AuthState>();
@@ -93,6 +96,9 @@ GoRouter createRouter(BuildContext context) {
       GoRoute(path: '/teacher', builder: (_, __) => const TeacherDashboard()),
       GoRoute(path: '/parent', builder: (_, __) => const ParentDashboard()),
       GoRoute(path: '/test', builder: (_, __) => const TestFirebaseScreen()),
+      GoRoute(path: '/schools', builder: (_, __) => const SchoolsListScreen()),
+      GoRoute(path: '/schools/new', builder: (_, __) => const AddSchoolScreen()),
+
     ],
   );
 }
