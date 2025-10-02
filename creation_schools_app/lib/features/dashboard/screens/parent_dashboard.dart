@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import '../../../app/auth_state.dart';
 import '../../../core/widgets/brand_logo.dart';
 
 class ParentDashboard extends StatelessWidget {
@@ -8,15 +10,22 @@ class ParentDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final uid = FirebaseAuth.instance.currentUser?.uid ?? '(none)';
+    final auth = context.watch<AuthState>();
+    final p = auth.profile;
+    final displayName = [
+      if ((p?.firstName ?? '').isNotEmpty) p!.firstName,
+      if ((p?.lastName  ?? '').isNotEmpty) p!.lastName,
+    ].join(' ').trim();
+    final fallback = FirebaseAuth.instance.currentUser?.email ?? 'Parent';
+
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 12,
         title: Row(
-          children: const [
-            BrandLogo(height: 40),
-            SizedBox(width: 10),
-            Text('Parent Dashboard'),
+          children: [
+            const BrandLogo(height: 40),
+            const SizedBox(width: 10),
+            const Text('Parent Dashboard'),
           ],
         ),
         actions: [
@@ -33,7 +42,9 @@ class ParentDashboard extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(child: Text('Welcome, parent (uid: $uid)')),
+      body: Center(
+        child: Text('Welcome, ${displayName.isEmpty ? fallback : displayName}'),
+      ),
     );
   }
 }
