@@ -40,14 +40,14 @@ class AuthState extends ChangeNotifier {
         .doc(uid)
         .snapshots()
         .listen((snap) {
-      _profileLoading = false;
-      if (snap.exists && snap.data() != null) {
-        _profile = AppUser.fromMap(snap.id, snap.data()!);
-      } else {
-        _profile = null;
-      }
-      notifyListeners();
-    });
+          _profileLoading = false;
+          if (snap.exists && snap.data() != null) {
+            _profile = AppUser.fromMap(snap.id, snap.data()!);
+          } else {
+            _profile = null;
+          }
+          notifyListeners();
+        });
   }
 
   @override

@@ -55,7 +55,9 @@ class _SignupScreenState extends State<SignupScreen> {
     final fs = FirebaseFirestore.instance;
 
     await fs.runTransaction((tx) async {
-      final codeRef = fs.collection('signupCodes').doc(code.trim().toUpperCase());
+      final codeRef = fs
+          .collection('signupCodes')
+          .doc(code.trim().toUpperCase());
       final codeSnap = await tx.get(codeRef);
 
       if (!codeSnap.exists) {
@@ -114,7 +116,9 @@ class _SignupScreenState extends State<SignupScreen> {
       );
 
       // 2) Set display name
-      await cred.user?.updateDisplayName('${_first.text.trim()} ${_last.text.trim()}');
+      await cred.user?.updateDisplayName(
+        '${_first.text.trim()} ${_last.text.trim()}',
+      );
 
       // 3) Redeem code → writes Firestore profile (role + school) and marks code used
       await _redeemSignupCode(code: _code.text, uid: cred.user!.uid);
@@ -153,7 +157,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   if (_error != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: Text(_error!, style: const TextStyle(color: Colors.red)),
+                      child: Text(
+                        _error!,
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     ),
                   TextFormField(
                     controller: _code,
@@ -170,7 +177,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       Expanded(
                         child: TextFormField(
                           controller: _first,
-                          decoration: const InputDecoration(labelText: 'First name'),
+                          decoration: const InputDecoration(
+                            labelText: 'First name',
+                          ),
                           validator: (v) => _required(v, 'First name'),
                         ),
                       ),
@@ -178,7 +187,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       Expanded(
                         child: TextFormField(
                           controller: _last,
-                          decoration: const InputDecoration(labelText: 'Last name'),
+                          decoration: const InputDecoration(
+                            labelText: 'Last name',
+                          ),
                           validator: (v) => _required(v, 'Last name'),
                         ),
                       ),
@@ -195,16 +206,21 @@ class _SignupScreenState extends State<SignupScreen> {
                   TextFormField(
                     controller: _password,
                     obscureText: true,
-                    decoration: const InputDecoration(labelText: 'Password (min 8 chars)'),
+                    decoration: const InputDecoration(
+                      labelText: 'Password (min 8 chars)',
+                    ),
                     validator: _passwordRule,
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _confirm,
                     obscureText: true,
-                    decoration: const InputDecoration(labelText: 'Confirm password'),
-                    validator: (v) =>
-                        (v == null || v.isEmpty) ? 'Confirm your password' : null,
+                    decoration: const InputDecoration(
+                      labelText: 'Confirm password',
+                    ),
+                    validator: (v) => (v == null || v.isEmpty)
+                        ? 'Confirm your password'
+                        : null,
                   ),
                   const SizedBox(height: 20),
                   SizedBox(

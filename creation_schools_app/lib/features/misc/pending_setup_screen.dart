@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class PendingSetupScreen extends StatelessWidget {
   const PendingSetupScreen({super.key});
   @override

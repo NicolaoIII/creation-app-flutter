@@ -12,7 +12,13 @@ class SuperAdminDashboard extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 12,
-        title: Row(children: const [BrandLogo(height: 40), SizedBox(width: 10), Text('SuperAdmin Dashboard')]),
+        title: Row(
+          children: const [
+            BrandLogo(height: 40),
+            SizedBox(width: 10),
+            Text('SuperAdmin Dashboard'),
+          ],
+        ),
         actions: [
           TextButton(
             onPressed: () => context.go('/codes'),
@@ -23,7 +29,6 @@ class SuperAdminDashboard extends StatelessWidget {
             onPressed: () => context.go('/schools'),
             child: const Text('Schools'),
           ),
-
 
           TextButton(
             onPressed: () async {

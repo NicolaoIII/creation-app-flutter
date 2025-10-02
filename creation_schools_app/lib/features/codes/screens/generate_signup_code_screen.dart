@@ -10,23 +10,18 @@ class GenerateSignupCodeScreen extends StatefulWidget {
   const GenerateSignupCodeScreen({super.key});
 
   @override
-  State<GenerateSignupCodeScreen> createState() => _GenerateSignupCodeScreenState();
+  State<GenerateSignupCodeScreen> createState() =>
+      _GenerateSignupCodeScreenState();
 }
 
 class _GenerateSignupCodeScreenState extends State<GenerateSignupCodeScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _schoolId = TextEditingController();
 
   String _role = 'teacher'; // default
+  String? _selectedSchoolId; // picked from Firestore list
   bool _submitting = false;
   String? _generatedCode;
   String? _error;
-
-  @override
-  void dispose() {
-    _schoolId.dispose();
-    super.dispose();
-  }
 
   String _makeCode({int length = 8}) {
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no 0/O/I/1
@@ -36,19 +31,27 @@ class _GenerateSignupCodeScreenState extends State<GenerateSignupCodeScreen> {
 
   Future<void> _createCode() async {
     if (!_formKey.currentState!.validate()) return;
-    setState(() { _submitting = true; _generatedCode = null; _error = null; });
+    setState(() {
+      _submitting = true;
+      _generatedCode = null;
+      _error = null;
+    });
 
     try {
       final code = _makeCode();
       final uid = FirebaseAuth.instance.currentUser!.uid;
 
       // Doc id == code → fast lookup at signup (no index needed)
-      final ref = FirebaseFirestore.instance.collection('signupCodes').doc(code);
+      final ref = FirebaseFirestore.instance
+          .collection('signupCodes')
+          .doc(code);
 
       await ref.set({
         'code': code,
-        'userType': _role,              // role to grant on redeem
-        'schoolId': _schoolId.text.trim().isEmpty ? null : _schoolId.text.trim(),
+        'userType': _role, // role to grant on redeem
+        'schoolId': (_selectedSchoolId == null || _selectedSchoolId!.isEmpty)
+            ? null
+            : _selectedSchoolId,
         'createdBy': uid,
         'createdAt': FieldValue.serverTimestamp(),
         'used': false,
@@ -75,6 +78,14 @@ class _GenerateSignupCodeScreenState extends State<GenerateSignupCodeScreen> {
         ? const ['superadmin', 'admin', 'teacher', 'parent']
         : const ['teacher', 'parent'];
 
+    final schoolsQuery = FirebaseFirestore.instance
+        .collection('schools')
+        .orderBy('name')
+        .withConverter<Map<String, dynamic>>(
+          fromFirestore: (snap, _) => snap.data() ?? {},
+          toFirestore: (data, _) => data,
+        );
+
     return Scaffold(
       appBar: AppBar(title: const Text('Generate Signup Code')),
       body: Center(
@@ -88,16 +99,22 @@ class _GenerateSignupCodeScreenState extends State<GenerateSignupCodeScreen> {
                 if (_error != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: Text(_error!, style: const TextStyle(color: Colors.red)),
+                    child: Text(
+                      _error!,
+                      style: const TextStyle(color: Colors.red),
+                    ),
                   ),
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
+                      // Role picker (uses initialValue per latest Flutter)
                       DropdownButtonFormField<String>(
-                        value: _role,
+                        initialValue: _role,
                         items: roleOptions
-                            .map((r) => DropdownMenuItem(value: r, child: Text(r)))
+                            .map(
+                              (r) => DropdownMenuItem(value: r, child: Text(r)),
+                            )
                             .toList(),
                         onChanged: (v) => setState(() => _role = v ?? _role),
                         decoration: const InputDecoration(
@@ -105,13 +122,60 @@ class _GenerateSignupCodeScreenState extends State<GenerateSignupCodeScreen> {
                         ),
                       ),
                       const SizedBox(height: 12),
-                      TextFormField(
-                        controller: _schoolId,
-                        decoration: const InputDecoration(
-                          labelText: 'School ID (optional for now)',
-                          hintText: 'e.g., abc123 (we will add a picker soon)',
-                        ),
+
+                      // School picker (live from Firestore)
+                      StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                        stream: schoolsQuery.snapshots(),
+                        builder: (context, snap) {
+                          if (snap.connectionState == ConnectionState.waiting) {
+                            return const Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 12),
+                                child: SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                          if (snap.hasError) {
+                            return const Text('Could not load schools');
+                          }
+                          final docs = snap.data?.docs ?? [];
+
+                          // Dropdown items: (none) + all schools
+                          final items = <DropdownMenuItem<String?>>[
+                            const DropdownMenuItem<String?>(
+                              value: null,
+                              child: Text('(No school — optional)'),
+                            ),
+                            ...docs.map((d) {
+                              final id = d.id;
+                              final name = (d.data()['name'] ?? '') as String;
+                              return DropdownMenuItem<String?>(
+                                value: id,
+                                child: Text(name.isEmpty ? id : name),
+                              );
+                            }),
+                          ];
+
+                          return DropdownButtonFormField<String?>(
+                            isExpanded: true,
+                            initialValue: _selectedSchoolId,
+                            items: items,
+                            onChanged: (v) =>
+                                setState(() => _selectedSchoolId = v),
+                            decoration: const InputDecoration(
+                              labelText: 'School (optional)',
+                            ),
+                          );
+                        },
                       ),
+
                       const SizedBox(height: 16),
                       SizedBox(
                         width: double.infinity,
@@ -119,8 +183,11 @@ class _GenerateSignupCodeScreenState extends State<GenerateSignupCodeScreen> {
                           onPressed: _submitting ? null : _createCode,
                           child: _submitting
                               ? const SizedBox(
-                                  width: 18, height: 18,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 )
                               : const Text('Generate code'),
                         ),
@@ -132,15 +199,22 @@ class _GenerateSignupCodeScreenState extends State<GenerateSignupCodeScreen> {
                   const SizedBox(height: 20),
                   SelectableText(
                     'Generated code: ${_generatedCode!}',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   TextButton.icon(
                     onPressed: () async {
-                      await Clipboard.setData(ClipboardData(text: _generatedCode!));
-                      if (!mounted) return;
+                      await Clipboard.setData(
+                        ClipboardData(text: _generatedCode!),
+                      );
+                      if (!context.mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Code copied to clipboard')),
+                        const SnackBar(
+                          content: Text('Code copied to clipboard'),
+                        ),
                       );
                     },
                     icon: const Icon(Icons.copy),

@@ -16,21 +16,21 @@ class School {
   });
 
   Map<String, dynamic> toMap({String? createdBy}) => {
-        'name': name,
-        'district': district,
-        'description': description,
-        'address': address,
-        'isActive': isActive,
-        if (createdBy != null) 'createdBy': createdBy,
-        'createdAt': DateTime.now(), // server ts via set() below
-      };
+    'name': name,
+    'district': district,
+    'description': description,
+    'address': address,
+    'isActive': isActive,
+    if (createdBy != null) 'createdBy': createdBy,
+    'createdAt': DateTime.now(), // server ts via set() below
+  };
 
   static School fromMap(String id, Map<String, dynamic> d) => School(
-        id: id,
-        name: (d['name'] ?? '') as String,
-        district: d['district'] as String?,
-        description: d['description'] as String?,
-        address: d['address'] as String?,
-        isActive: (d['isActive'] as bool?) ?? true,
-      );
+    id: id,
+    name: (d['name'] ?? '') as String,
+    district: d['district'] as String?,
+    description: d['description'] as String?,
+    address: d['address'] as String?,
+    isActive: (d['isActive'] as bool?) ?? true,
+  );
 }

@@ -31,7 +31,6 @@ class AdminDashboard extends StatelessWidget {
             child: const Text('Schools'),
           ),
 
-
           TextButton(
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
@@ -41,9 +40,7 @@ class AdminDashboard extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: Text('Hello Admin (uid: $uid)'),
-      ),
+      body: Center(child: Text('Hello Admin (uid: $uid)')),
     );
   }
 }

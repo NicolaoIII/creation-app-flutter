@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BrandLogo extends StatelessWidget {
-  const BrandLogo({
-    super.key,
-    this.height = 36,
-    this.fit = BoxFit.contain,
-  });
+  const BrandLogo({super.key, this.height = 36, this.fit = BoxFit.contain});
 
   final double height;
   final BoxFit fit;

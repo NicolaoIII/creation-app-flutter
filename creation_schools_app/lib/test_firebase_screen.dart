@@ -46,7 +46,9 @@ class _TestFirebaseScreenState extends State<TestFirebaseScreen> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     return Scaffold(
-      appBar: AppBar(title: const Text('Creation Schools — Firebase Smoke Test')),
+      appBar: AppBar(
+        title: const Text('Creation Schools — Firebase Smoke Test'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -59,9 +61,18 @@ class _TestFirebaseScreenState extends State<TestFirebaseScreen> {
               spacing: 12,
               runSpacing: 12,
               children: [
-                ElevatedButton(onPressed: _signInAnon, child: const Text('Sign in (anon)')),
-                ElevatedButton(onPressed: _writeDoc, child: const Text('Write Firestore')),
-                ElevatedButton(onPressed: _readDoc, child: const Text('Read Firestore')),
+                ElevatedButton(
+                  onPressed: _signInAnon,
+                  child: const Text('Sign in (anon)'),
+                ),
+                ElevatedButton(
+                  onPressed: _writeDoc,
+                  child: const Text('Write Firestore'),
+                ),
+                ElevatedButton(
+                  onPressed: _readDoc,
+                  child: const Text('Read Firestore'),
+                ),
                 TextButton(onPressed: _signOut, child: const Text('Sign out')),
               ],
             ),

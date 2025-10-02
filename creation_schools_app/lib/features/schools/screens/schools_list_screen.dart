@@ -7,9 +7,7 @@ class SchoolsListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final q = FirebaseFirestore.instance
-        .collection('schools')
-        .orderBy('name');
+    final q = FirebaseFirestore.instance.collection('schools').orderBy('name');
 
     return Scaffold(
       appBar: AppBar(
@@ -32,7 +30,9 @@ class SchoolsListScreen extends StatelessWidget {
           }
           final docs = snap.data?.docs ?? [];
           if (docs.isEmpty) {
-            return const Center(child: Text('No schools yet. Add the first one.'));
+            return const Center(
+              child: Text('No schools yet. Add the first one.'),
+            );
           }
           return ListView.separated(
             itemCount: docs.length,
@@ -45,11 +45,16 @@ class SchoolsListScreen extends StatelessWidget {
               return ListTile(
                 title: Text(name),
                 subtitle: Text(
-                  [if (district.isNotEmpty) 'District: $district', if (desc.isNotEmpty) desc]
-                      .join(' · '),
+                  [
+                    if (district.isNotEmpty) 'District: $district',
+                    if (desc.isNotEmpty) desc,
+                  ].join(' · '),
                 ),
                 trailing: (d['isActive'] == false)
-                    ? const Icon(Icons.pause_circle_filled, color: Colors.orange)
+                    ? const Icon(
+                        Icons.pause_circle_filled,
+                        color: Colors.orange,
+                      )
                     : const Icon(Icons.check_circle, color: Colors.green),
               );
             },

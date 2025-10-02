@@ -39,8 +39,12 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
       final uid = FirebaseAuth.instance.currentUser?.uid;
       final data = {
         'name': _name.text.trim(),
-        'district': _district.text.trim().isEmpty ? null : _district.text.trim(),
-        'description': _description.text.trim().isEmpty ? null : _description.text.trim(),
+        'district': _district.text.trim().isEmpty
+            ? null
+            : _district.text.trim(),
+        'description': _description.text.trim().isEmpty
+            ? null
+            : _description.text.trim(),
         'address': _address.text.trim().isEmpty ? null : _address.text.trim(),
         'isActive': true,
         'createdBy': uid,
@@ -50,9 +54,9 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
       await FirebaseFirestore.instance.collection('schools').add(data);
 
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('School added')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('School added')));
 
       // Prefer pop (if we arrived via push from /schools). If not possible, go to /schools.
       if (Navigator.canPop(context)) {
@@ -84,29 +88,39 @@ class _AddSchoolScreenState extends State<AddSchoolScreen> {
                   if (_error != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: Text(_error!, style: const TextStyle(color: Colors.red)),
+                      child: Text(
+                        _error!,
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     ),
                   TextFormField(
                     controller: _name,
                     decoration: const InputDecoration(labelText: 'School name'),
-                    validator: (v) =>
-                        (v == null || v.trim().isEmpty) ? 'School name is required' : null,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? 'School name is required'
+                        : null,
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _district,
-                    decoration: const InputDecoration(labelText: 'District (optional)'),
+                    decoration: const InputDecoration(
+                      labelText: 'District (optional)',
+                    ),
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _description,
-                    decoration: const InputDecoration(labelText: 'Description (optional)'),
+                    decoration: const InputDecoration(
+                      labelText: 'Description (optional)',
+                    ),
                     maxLines: 3,
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _address,
-                    decoration: const InputDecoration(labelText: 'Address (optional)'),
+                    decoration: const InputDecoration(
+                      labelText: 'Address (optional)',
+                    ),
                   ),
                   const SizedBox(height: 20),
                   SizedBox(

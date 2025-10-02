@@ -79,7 +79,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   if (_error != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12),
-                      child: Text(_error!, style: const TextStyle(color: Colors.red)),
+                      child: Text(
+                        _error!,
+                        style: const TextStyle(color: Colors.red),
+                      ),
                     ),
                   TextFormField(
                     controller: _email,
@@ -88,18 +91,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       labelText: 'Email',
                       hintText: 'you@example.com',
                     ),
-                    validator: (v) =>
-                        (v == null || v.trim().isEmpty) ? 'Email is required' : null,
+                    validator: (v) => (v == null || v.trim().isEmpty)
+                        ? 'Email is required'
+                        : null,
                   ),
                   const SizedBox(height: 12),
                   TextFormField(
                     controller: _password,
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                    ),
-                    validator: (v) =>
-                        (v == null || v.isEmpty) ? 'Password is required' : null,
+                    decoration: const InputDecoration(labelText: 'Password'),
+                    validator: (v) => (v == null || v.isEmpty)
+                        ? 'Password is required'
+                        : null,
                   ),
                   const SizedBox(height: 16),
                   SizedBox(
@@ -110,8 +113,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ? const Padding(
                               padding: EdgeInsets.all(8.0),
                               child: SizedBox(
-                                width: 18, height: 18,
-                                child: CircularProgressIndicator(strokeWidth: 2),
+                                width: 18,
+                                height: 18,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               ),
                             )
                           : const Text('Sign in'),
@@ -126,7 +132,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: const Text('Forgot password?'),
                       ),
                       TextButton(
-                        onPressed: _loading ? null : () => context.go('/signup'),
+                        onPressed: _loading
+                            ? null
+                            : () => context.go('/signup'),
                         child: const Text('Create account'),
                       ),
                     ],
