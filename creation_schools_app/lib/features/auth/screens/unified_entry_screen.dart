@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/widgets/brand_logo.dart';
 
 class UnifiedEntryScreen extends StatelessWidget {
   const UnifiedEntryScreen({super.key});
@@ -13,7 +14,16 @@ class UnifiedEntryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Creation Schools — Entry')),
+      appBar: AppBar(
+        titleSpacing: 12,
+        title: Row(
+          children: const [
+            BrandLogo(height: 40),
+            SizedBox(width: 10),
+            Text('Creation Schools — Entry'),
+          ],
+        ),
+      ),
       body: Center(
         child: Wrap(
           alignment: WrapAlignment.center,

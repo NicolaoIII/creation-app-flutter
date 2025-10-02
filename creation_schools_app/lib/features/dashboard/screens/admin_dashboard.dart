@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/widgets/brand_logo.dart';
 
 class AdminDashboard extends StatelessWidget {
   const AdminDashboard({super.key});
@@ -8,9 +9,17 @@ class AdminDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uid = FirebaseAuth.instance.currentUser?.uid ?? '(none)';
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Dashboard'),
+        titleSpacing: 12,
+        title: Row(
+          children: const [
+            BrandLogo(height: 40),
+            SizedBox(width: 10),
+            Text('Admin Dashboard'),
+          ],
+        ),
         actions: [
           TextButton(
             onPressed: () async {
@@ -21,7 +30,9 @@ class AdminDashboard extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(child: Text('Hello Admin (uid: $uid)')),
+      body: Center(
+        child: Text('Hello Admin (uid: $uid)'),
+      ),
     );
   }
 }
