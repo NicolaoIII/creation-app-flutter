@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyDGEwyRG9XNzvRC-IaX9ZA5iLYh7zjUcfk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>366974591989</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.creationschools.creationSchoolsApp</string>
+	<key>PROJECT_ID</key>
+	<string>creationschools-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>creationschools-dev.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:366974591989:ios:bb57bf92b110a4c4ed36bc</string>
+</dict>
+</plist>

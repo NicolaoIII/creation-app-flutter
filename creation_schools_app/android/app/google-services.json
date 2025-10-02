@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "366974591989",
+    "project_id": "creationschools-dev",
+    "storage_bucket": "creationschools-dev.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:366974591989:android:e492c92bf5db74f4ed36bc",
+        "android_client_info": {
+          "package_name": "com.creationschools.creation_schools_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDF7GTTjwJkB0rdOf7Ypng9stC7-3RpTbM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
