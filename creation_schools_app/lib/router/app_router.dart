@@ -19,6 +19,11 @@ import '../features/codes/screens/generate_signup_code_screen.dart';
 import '../features/schools/screens/schools_list_screen.dart';
 import '../features/schools/screens/add_school_screen.dart';
 
+import '../features/students/screens/students_list_screen.dart';
+import '../features/students/screens/add_student_screen.dart';
+import '../features/students/screens/student_detail_screen.dart';
+import '../features/students/screens/my_students_screen.dart';
+
 GoRouter createRouter(BuildContext context) {
   final auth = context.read<AuthState>();
 
@@ -105,6 +110,23 @@ GoRouter createRouter(BuildContext context) {
       GoRoute(
         path: '/schools/new',
         builder: (_, __) => const AddSchoolScreen(),
+      ),
+      GoRoute(
+        path: '/students',
+        builder: (_, __) => const StudentsListScreen(),
+      ),
+      GoRoute(
+        path: '/students/new',
+        builder: (_, __) => const AddStudentScreen(),
+      ),
+      GoRoute(
+        path: '/students/:id',
+        builder: (ctx, state) =>
+            StudentDetailScreen(id: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: '/students/mine',
+        builder: (_, __) => const MyStudentsScreen(),
       ),
     ],
   );

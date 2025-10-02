@@ -26,6 +26,11 @@ class SuperAdminDashboard extends StatelessWidget {
           ),
 
           TextButton(
+            onPressed: () => context.go('/students'),
+            child: const Text('Students'),
+          ),
+
+          TextButton(
             onPressed: () => context.go('/schools'),
             child: const Text('Schools'),
           ),
