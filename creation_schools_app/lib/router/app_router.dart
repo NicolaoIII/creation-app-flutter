@@ -6,6 +6,8 @@ import '../features/auth/screens/unified_entry_screen.dart';
 import '../features/auth/screens/signup_screen.dart';
 import '../features/dashboard/screens/admin_dashboard.dart';
 import '../test_firebase_screen.dart';
+import '../features/auth/screens/login_screen.dart';
+
 
 GoRouter createRouter(BuildContext context) {
   final auth = context.read<AuthState>();
@@ -23,6 +25,8 @@ GoRouter createRouter(BuildContext context) {
       GoRoute(path: '/signup', builder: (_, __) => const SignupScreen()),
       GoRoute(path: '/admin', builder: (_, __) => const AdminDashboard()),
       GoRoute(path: '/test', builder: (_, __) => const TestFirebaseScreen()),
+      GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),
+
     ],
   );
 }

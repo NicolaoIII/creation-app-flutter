@@ -31,6 +31,11 @@ class UnifiedEntryScreen extends StatelessWidget {
           runSpacing: 12,
           children: [
             ElevatedButton(
+              onPressed: () => context.go('/login'),
+              child: const Text('Login (email/password)'),
+            ),
+
+            ElevatedButton(
               onPressed: () => _demoLogin(context),
               child: const Text('Continue (demo) to Admin'),
             ),
