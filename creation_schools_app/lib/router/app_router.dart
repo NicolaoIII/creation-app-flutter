@@ -119,15 +119,18 @@ GoRouter createRouter(BuildContext context) {
         path: '/students/new',
         builder: (_, __) => const AddStudentScreen(),
       ),
+
+      GoRoute(
+        path: '/students/mine',
+        builder: (_, __) => const MyStudentsScreen(),
+      ),
+      
       GoRoute(
         path: '/students/:id',
         builder: (ctx, state) =>
             StudentDetailScreen(id: state.pathParameters['id']!),
       ),
-      GoRoute(
-        path: '/students/mine',
-        builder: (_, __) => const MyStudentsScreen(),
-      ),
+      
     ],
   );
 }
