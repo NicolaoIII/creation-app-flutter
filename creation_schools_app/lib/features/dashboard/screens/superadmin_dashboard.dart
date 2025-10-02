@@ -15,6 +15,11 @@ class SuperAdminDashboard extends StatelessWidget {
         title: Row(children: const [BrandLogo(height: 40), SizedBox(width: 10), Text('SuperAdmin Dashboard')]),
         actions: [
           TextButton(
+            onPressed: () => context.go('/codes'),
+            child: const Text('Signup Codes'),
+          ),
+
+          TextButton(
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               if (context.mounted) context.go('/');

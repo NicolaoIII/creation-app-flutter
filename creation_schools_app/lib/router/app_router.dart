@@ -14,6 +14,9 @@ import '../features/misc/loading_screen.dart';
 import '../features/misc/pending_setup_screen.dart';
 import '../test_firebase_screen.dart';
 
+import '../features/codes/screens/generate_signup_code_screen.dart';
+
+
 GoRouter createRouter(BuildContext context) {
   final auth = context.read<AuthState>();
 
@@ -82,6 +85,7 @@ GoRouter createRouter(BuildContext context) {
       GoRoute(path: '/', builder: (_, __) => const UnifiedEntryScreen()),
       GoRoute(path: '/login', builder: (_, __) => const LoginScreen()),
       GoRoute(path: '/signup', builder: (_, __) => const SignupScreen()),
+      GoRoute(path: '/codes', builder: (_, __) => const GenerateSignupCodeScreen()),
       GoRoute(path: '/loading', builder: (_, __) => const LoadingScreen()),
       GoRoute(path: '/pending', builder: (_, __) => const PendingSetupScreen()),
       GoRoute(path: '/superadmin', builder: (_, __) => const SuperAdminDashboard()),

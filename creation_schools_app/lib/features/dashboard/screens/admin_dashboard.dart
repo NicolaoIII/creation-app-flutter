@@ -22,6 +22,11 @@ class AdminDashboard extends StatelessWidget {
         ),
         actions: [
           TextButton(
+            onPressed: () => context.go('/codes'),
+            child: const Text('Signup Codes'),
+          ),
+
+          TextButton(
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               if (context.mounted) context.go('/');
